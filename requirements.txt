@@ -1,0 +1,18 @@
+# Aether — Production Requirements
+# These are optimized for a containerized deployment (e.g., Hugging Face Spaces Docker)
+
+# Core Web & API
+fastapi
+uvicorn[standard]
+gradio>=6.0.0
+python-multipart
+
+# Computer Vision & ML
+opencv-python-headless
+mediapipe
+numpy
+tensorflow-cpu>=2.12.0
+
+# Utilities
+httpx
+jinja2

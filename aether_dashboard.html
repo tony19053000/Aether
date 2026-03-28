@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aether AI | Fall Detection &amp; Safety Monitoring</title>
+<link rel="icon" type="image/png" href="/favicon.png" />
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=Manrope:wght@500;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(53, 53, 52, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .intelligence-rail {
+            background: linear-gradient(to bottom, #ff6b00, transparent);
+            width: 2px;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .glow-orange {
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.2);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary-container": "#ff6b00",
+                "surface-dim": "#131313",
+                "on-error": "#690005",
+                "error-container": "#93000a",
+                "tertiary-container": "#059eff",
+                "surface-tint": "#ffb693",
+                "background": "#131313",
+                "on-secondary-fixed-variant": "#474746",
+                "surface-container-lowest": "#0e0e0e",
+                "on-tertiary-fixed": "#001d35",
+                "secondary-fixed": "#e5e2e1",
+                "inverse-primary": "#a04100",
+                "primary-fixed": "#ffdbcc",
+                "on-secondary-container": "#b7b5b4",
+                "on-surface": "#e5e2e1",
+                "surface-container-highest": "#353534",
+                "secondary": "#c8c6c5",
+                "inverse-on-surface": "#313030",
+                "on-secondary": "#313030",
+                "tertiary-fixed": "#d0e4ff",
+                "outline-variant": "#5a4136",
+                "on-primary-fixed-variant": "#7a3000",
+                "surface": "#131313",
+                "surface-bright": "#3a3939",
+                "inverse-surface": "#e5e2e1",
+                "on-tertiary-container": "#003357",
+                "primary-fixed-dim": "#ffb693",
+                "secondary-container": "#474746",
+                "primary": "#ffb693",
+                "on-surface-variant": "#e2bfb0",
+                "surface-container-high": "#2a2a2a",
+                "on-primary-container": "#572000",
+                "surface-variant": "#353534",
+                "on-secondary-fixed": "#1c1b1b",
+                "on-primary": "#561f00",
+                "surface-container": "#201f1f",
+                "surface-container-low": "#1c1b1b",
+                "secondary-fixed-dim": "#c8c6c5",
+                "tertiary-fixed-dim": "#9ccaff",
+                "on-tertiary-fixed-variant": "#00497b",
+                "outline": "#a98a7d",
+                "error": "#ffb4ab",
+                "on-background": "#e5e2e1",
+                "on-error-container": "#ffdad6",
+                "on-tertiary": "#003257",
+                "on-primary-fixed": "#351000",
+                "tertiary": "#9ccaff"
+              },
+              fontFamily: {
+                "headline": ["Space Grotesk"],
+                "body": ["Inter"],
+                "label": ["Manrope"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar Navigation Shell -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-20 bg-[#131313]">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-bold tracking-tighter text-[#ffb693] font-headline">Aether</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#ffb693] border-b-2 border-[#ff6b00] pb-1 font-body text-sm transition-colors opacity-80 duration-200" href="#">Monitoring</a>
+<a class="text-[#c8c6c5] font-body text-sm hover:text-[#ffb693] transition-colors" href="#">Analytics</a>
+<a class="text-[#c8c6c5] font-body text-sm hover:text-[#ffb693] transition-colors" href="#">Logs</a>
+<a class="text-[#c8c6c5] font-body text-sm hover:text-[#ffb693] transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-high px-4 py-1.5 rounded-full border border-outline-variant/20 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="text-[10px] font-label uppercase tracking-widest text-primary">System Status: Active</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-[#c8c6c5] hover:text-[#ffb693] transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-[#c8c6c5] hover:text-[#ffb693] transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant/30 flex items-center justify-center overflow-hidden ml-2">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="User profile avatar icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOyR5kxQkj7w1y7ludGhg4g8mPaRtuZ6PleAOOcMm0q_Gjm1oGMef0N2PMIapvN1GGtbjx4DcuU-844DnjXlS1EKhGSAU0gOWd0Tei8gLhVOU1k2Gy50d4EHR0FiVw-ElJHNo-JIW7CCTMIVtMV3_OAPe_pshvAYZ-FE0ZslQ6x2VSDpCDl5qI5CTsngI9xyQoaQgI-MuiBEfB6UD5bhKY3d4FiNUWHw47wySdqUGOuy53iPF8LEqZabEWtYTfJ7kOfYIkx7DexudB"/>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow pt-24 pb-12 px-8 max-w-[1600px] mx-auto w-full">
+<!-- Hero Section -->
+<section class="mb-12 relative overflow-hidden p-12 rounded-xl bg-surface-container-low border border-outline-variant/10">
+<div class="absolute -top-24 -right-24 w-96 h-96 bg-primary-container/10 blur-[120px] rounded-full"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-4">
+<span class="px-3 py-1 rounded-full bg-primary-container/10 border border-primary-container/20 text-primary text-[10px] font-label font-bold uppercase tracking-widest">Model Ready</span>
+<span class="text-secondary/50 text-xs font-label">•</span>
+<span class="text-secondary/80 text-xs font-label">v4.2 Stable Core</span>
+</div>
+<h1 class="text-5xl font-headline font-bold text-on-surface tracking-tight mb-4">AI Fall Detection &amp; <span class="text-primary">Safety Monitoring</span></h1>
+<p class="text-lg font-body text-secondary max-w-2xl leading-relaxed">
+                    Advanced neural processing for real-time human pose estimation and anomaly detection. Aether delivers 99.8% precision in critical incident recognition.
+                </p>
+</div>
+</section>
+<!-- Main Analysis Workspace -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+<!-- Left: Source Input -->
+<div class="lg:col-span-6 flex flex-col gap-6">
+<div class="bg-surface-container p-8 rounded-xl min-h-[480px] flex flex-col border border-outline-variant/10 relative overflow-hidden group">
+<div class="flex justify-between items-center mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">upload_file</span>
+<h3 class="font-headline text-xl font-bold">Source Input</h3>
+</div>
+<span class="text-xs font-label text-secondary/60">HEVC/MP4 SUPPORTED</span>
+</div>
+<div class="flex-grow border-2 border-dashed border-outline-variant/30 rounded-lg flex flex-col items-center justify-center p-12 transition-all hover:border-primary-container/50 group-hover:bg-primary-container/5">
+<div class="w-20 h-20 rounded-full bg-surface-container-high flex items-center justify-center mb-6 border border-outline-variant/20 shadow-xl">
+<span class="material-symbols-outlined text-3xl text-primary" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+</div>
+<p class="font-headline text-lg font-medium mb-2">Drag &amp; Drop visual stream</p>
+<p class="text-sm font-body text-secondary mb-8 text-center max-w-xs">Upload surveillance footage or link a RTSP stream for real-time analysis.</p>
+<button class="px-6 py-2.5 bg-surface-container-highest border border-outline-variant/40 rounded-full text-sm font-label hover:bg-surface-bright transition-colors">Select From Files</button>
+</div>
+</div>
+</div>
+<!-- Right: AI Analysis -->
+<div class="lg:col-span-6 flex flex-col gap-6">
+<div class="bg-surface-container p-8 rounded-xl min-h-[480px] flex flex-col border border-outline-variant/10 relative">
+<div class="intelligence-rail"></div>
+<div class="flex justify-between items-center mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">query_stats</span>
+<h3 class="font-headline text-xl font-bold">AI Analysis</h3>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-label uppercase tracking-widest text-secondary/60">Processing Latency: 14ms</span>
+</div>
+</div>
+<div class="flex-grow bg-surface-container-lowest rounded-lg border border-outline-variant/20 relative overflow-hidden group">
+<!-- Placeholder for analyzed video -->
+<div class="absolute inset-0 flex flex-col items-center justify-center opacity-40">
+<span class="material-symbols-outlined text-6xl mb-4">videocam_off</span>
+<p class="text-xs font-label uppercase tracking-widest">Waiting for stream...</p>
+</div>
+<!-- Overlay elements -->
+<div class="absolute top-4 left-4 flex flex-col gap-2">
+<div class="glass-panel px-3 py-1 rounded border border-white/10 text-[10px] font-mono text-white/80">CAM_01_REAR</div>
+<div class="glass-panel px-3 py-1 rounded border border-white/10 text-[10px] font-mono text-white/80">FPS: 60.0</div>
+</div>
+<div class="absolute bottom-4 right-4">
+<div class="w-12 h-12 rounded-full border-2 border-primary-container/30 border-t-primary-container animate-spin"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Control Bar -->
+<div class="flex items-center justify-between bg-surface-container-high/50 p-6 rounded-xl border border-outline-variant/10 mb-12">
+<div class="flex items-center gap-8">
+<div class="flex flex-col">
+<span class="text-[10px] font-label uppercase text-secondary/60 tracking-widest">Detection Threshold</span>
+<span class="text-sm font-body font-medium">0.85 (High Sensitivity)</span>
+</div>
+<div class="w-[1px] h-8 bg-outline-variant/20"></div>
+<div class="flex flex-col">
+<span class="text-[10px] font-label uppercase text-secondary/60 tracking-widest">Notification Protocol</span>
+<span class="text-sm font-body font-medium">Standard - Alert Only</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-8 py-3 bg-surface-container-highest text-secondary font-label text-sm font-bold rounded-xl border border-outline-variant/30 hover:bg-surface-bright transition-all active:scale-95">
+                    Clear Workspace
+                </button>
+<button class="px-10 py-3 bg-primary-container text-on-primary-container font-headline text-sm font-bold rounded-xl shadow-lg glow-orange hover:opacity-90 transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+                    Analyze Video
+                </button>
+</div>
+</div>
+<!-- Insights & History Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+<!-- Detection Summary -->
+<div class="bg-surface-container p-6 rounded-xl border border-outline-variant/10">
+<h4 class="font-headline text-lg font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">assessment</span>
+                    Detection Summary
+                </h4>
+<div class="space-y-6">
+<div class="flex items-end justify-between">
+<div>
+<p class="text-[10px] font-label uppercase text-secondary/60 mb-1">Confidence Score</p>
+<p class="text-4xl font-headline font-bold">98.4<span class="text-primary text-xl">%</span></p>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-xs font-body text-tertiary-container mb-2">Target Identified</span>
+<div class="px-3 py-1 rounded-full bg-tertiary-container/10 border border-tertiary-container/30 text-tertiary text-[10px] font-bold uppercase tracking-widest">P01: Active</div>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full w-[98.4%]"></div>
+</div>
+</div>
+</div>
+<!-- Event Timeline -->
+<div class="bg-surface-container p-6 rounded-xl border border-outline-variant/10 lg:col-span-2">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-headline text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">history</span>
+                        Recent Activity Logs
+                    </h4>
+<button class="text-primary text-xs font-label hover:underline">Export Full Log</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead class="text-[10px] font-label uppercase text-secondary/40 text-left">
+<tr>
+<th class="pb-3 pr-4">Timestamp</th>
+<th class="pb-3 pr-4">Event Description</th>
+<th class="pb-3 pr-4">Confidence</th>
+<th class="pb-3">Status</th>
+</tr>
+</thead>
+<tbody class="font-body text-sm">
+<tr class="border-t border-outline-variant/10">
+<td class="py-4 text-secondary/60">12:45:02:14</td>
+<td class="py-4">Normal gait cycle detected</td>
+<td class="py-4">99.2%</td>
+<td class="py-4">
+<span class="px-2 py-0.5 rounded bg-secondary-container/30 text-secondary text-[10px] font-bold">NO FALL</span>
+</td>
+</tr>
+<tr class="border-t border-outline-variant/10">
+<td class="py-4 text-secondary/60">12:45:10:05</td>
+<td class="py-4 font-medium">Abrupt vertical velocity change</td>
+<td class="py-4">84.1%</td>
+<td class="py-4">
+<span class="px-2 py-0.5 rounded bg-error-container/30 text-error text-[10px] font-bold">WARNING</span>
+</td>
+</tr>
+<tr class="border-t border-outline-variant/10">
+<td class="py-4 text-secondary/60">12:45:11:42</td>
+<td class="py-4 font-bold text-primary">Posture anomaly: horizontal impact</td>
+<td class="py-4 font-bold">98.7%</td>
+<td class="py-4">
+<span class="px-2 py-0.5 rounded bg-primary-container/20 text-primary-container text-[10px] font-bold">FALL DETECTED</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Sample Scenarios -->
+<section>
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline text-2xl font-bold">Sample Test Scenarios</h3>
+<div class="flex gap-2">
+<button class="p-2 rounded-full border border-outline-variant/30 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-2 rounded-full border border-outline-variant/30 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Case 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-video bg-surface-container rounded-xl overflow-hidden border border-outline-variant/10 mb-3 relative">
+<img alt="Office Scenario" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-60" data-alt="Office environment surveillance shot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYSpa3NqYGR71rDO3HZWhC7i70UP4mtKX1qsh5tBZuQh9f6Z2wF0DdOY2RA8Ta6oYKqoZk3SNuqYvp-qH5CWK8aBbQhOW_GYQP06QSSxs24DeuTInMH3Us0oJKHW2q1d68ozuKd4wvza5OxxFCpIEUnjlksmmZnXvdrlXErEj7pBtdM1w1QHMswH7hWj7qxg9PlSHwjBcL4aC1JtdYcuoDNmqcMmvSE1SKhf9n1zu9MqJZkjEFP8j7QSbwIvxi4ASSbOYcnS_HeAQe"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary-container">play_circle</span>
+</div>
+</div>
+<p class="font-headline font-bold text-sm mb-1">Office Hallway #04</p>
+<p class="text-[10px] font-label uppercase tracking-wider text-secondary/50">Scenario: Standard Light</p>
+</div>
+<!-- Case 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-video bg-surface-container rounded-xl overflow-hidden border border-outline-variant/10 mb-3 relative">
+<img alt="Hospital Scenario" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-60" data-alt="Empty hospital corridor surveillance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBlo4pFm0yRe-ap__1AjN7X8V5ID15G_JGHbsQ1X8Wpw2Ry-4kRHht0LJnhCPRBLc5V4qdCy7kFsui0ywXnDqCEUEm8qGHbIpxeDbaRD-6M6BUTezQ6x00v1tAtSFgh878N4ZVFVS4XinjlbSBbLttB-Bkx9EhB3m63PPxUwdYj5NtHi1FGYi59oNqIr0lsyjX2ujwT7OtBMrrYRJ0e9J1pOsMAc4fOp_y4khml3TNQDEbOpuI2ZrF_6bEBYxzdoSWkWvGfGk7D4Zm"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary-container">play_circle</span>
+</div>
+</div>
+<p class="font-headline font-bold text-sm mb-1">Care Facility Ward B</p>
+<p class="text-[10px] font-label uppercase tracking-wider text-secondary/50">Scenario: Low Light Mode</p>
+</div>
+<!-- Case 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-video bg-surface-container rounded-xl overflow-hidden border border-outline-variant/10 mb-3 relative">
+<img alt="Living Room Scenario" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-60" data-alt="Residential living room interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDep5uUxV_jdbXF7v_78wbdDjv9_sMD_FE_ucBpD47WU9_uzz7Aebeor26UlogDMHl2zQ5PoMUASfBDeB4gyxMIbwVQK-4ly2lyKfygRTFKzKeSCNFw71VbDgSKDLMUp3c2zx5AKd55uS5VhROnniYk0079cKrBTEsgBaEQIxB9bjU9nMU1H18eoDnCg3i4jpIid2QBlLaFLWbOaD-sYfkUs-649OmuLu4SJjuBtEVQH5Emz63bl5njthmFxpApmIWaxDHgo1P0IPKG"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary-container">play_circle</span>
+</div>
+</div>
+<p class="font-headline font-bold text-sm mb-1">Residential Unit 12A</p>
+<p class="text-[10px] font-label uppercase tracking-wider text-secondary/50">Scenario: Complex Background</p>
+</div>
+<!-- Case 4 -->
+<div class="group cursor-pointer">
+<div class="aspect-video bg-surface-container rounded-xl overflow-hidden border border-outline-variant/10 mb-3 relative">
+<img alt="Public Space Scenario" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-60" data-alt="Public plaza or mall lobby" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOmkznkudh6OMsaqEcDncPpvBQmrokCBuVk9lnxTcIvtsYf-Vw0qiBnU2Uegm3MzVDO_6SyN8O0eVCLvG85vqYqRgL9_ooXPjzpCthNyZmKLZEitxeohYGxobxpPN_je0ovxuhG2_U6o2eU3m8OYWZiSwtmknoqgzwbmwT-8Fg0cma_TAevG4Ff-hSNDWr2m7g8f0jVu6QafDmYI0LPLTG0Dh8fReQu9oJp_GsZBEoSlFLJsHGWNDI2FxXc2l2jYvSqbn6L0rd1n_h"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary-container">play_circle</span>
+</div>
+</div>
+<p class="font-headline font-bold text-sm mb-1">Main Lobby North</p>
+<p class="text-[10px] font-label uppercase tracking-wider text-secondary/50">Scenario: High Density Crowds</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Shell -->
+<footer class="w-full flex justify-between items-center px-12 py-6 mt-auto bg-[#131313] border-t border-[#353534]/30">
+<span class="font-label text-[10px] uppercase tracking-widest text-[#c8c6c5]">© 2024 Aether Intelligence. All systems operational.</span>
+<div class="flex gap-8">
+<a class="font-label text-[10px] uppercase tracking-widest text-[#c8c6c5] hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="font-label text-[10px] uppercase tracking-widest text-[#c8c6c5] hover:text-white transition-colors" href="#">Terms of Service</a>
+<a class="font-label text-[10px] uppercase tracking-widest text-[#c8c6c5] hover:text-white transition-colors" href="#">API Documentation</a>
+</div>
+</footer>
+</body></html>
