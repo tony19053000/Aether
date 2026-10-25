@@ -8,7 +8,7 @@ From recorded movement to annotated video, predictions, and a readable timeline.
 
 **Computer Vision · Human Pose Estimation · Temporal Deep Learning**
 
-[The idea](#the-idea-behind-aether) · [Features](#what-you-can-do) · [How it works](#from-video-to-prediction) · [Demo](#walk-through-a-demo) · [Run locally](#run-locally-windows)
+[The idea](#the-idea-behind-aether) · [Features](#what-you-can-do) · [How it works](#from-video-to-prediction) · [Demo](#see-aether-in-action) · [Run locally](#run-locally-windows)
 
 </div>
 
@@ -25,6 +25,18 @@ Upload a clip or choose a sample, start the analysis, and Aether returns a video
 > **The project in one sentence:** Aether combines pose estimation and sequence-based classification to turn recorded video into reviewable fall-detection results.
 
 The current application is a working prototype for academic presentations, computer-vision demonstrations, and experimentation. It processes uploaded recordings; live monitoring and automatic emergency notifications are future extensions.
+
+## See Aether in action
+
+The first sample, **Warehouse Carrying Fall**, processed by Aether's actual analysis pipeline:
+
+![Aether tracking body landmarks as a person carrying a box falls, followed by the red FALL DETECTED overlay](images/aether-analysis-demo.gif)
+
+**Watch the movement:** the dots mark detected body landmarks, and the connecting lines show the estimated skeleton. As the person falls, the model evaluates successive motion sequences and the video displays **FALL DETECTED!** when the fall threshold is reached.
+
+In this run, the first fall event was reported at approximately **4.2 seconds**. The confidence shown on the video is the model's prediction score, not a measurement of overall accuracy. This is a recorded analysis result; the looping preview does not run inference in your browser.
+
+[**Open or download the full-quality demo video (MP4)**](images/aether-analysis-demo.mp4)
 
 ## What you can do
 
