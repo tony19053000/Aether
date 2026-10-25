@@ -30,7 +30,9 @@ The current application is a working prototype for academic presentations, compu
 
 The first sample, **Warehouse Carrying Fall**, processed by Aether's actual analysis pipeline:
 
-![Aether tracking body landmarks as a person carrying a box falls, followed by the red FALL DETECTED overlay](images/aether-analysis-demo.gif)
+<p align="center">
+  <img src="images/aether-analysis-demo.gif" width="800" alt="Aether tracking body landmarks as a person carrying a box falls, followed by the red FALL DETECTED overlay">
+</p>
 
 **Watch the movement:** the dots mark detected body landmarks, and the connecting lines show the estimated skeleton. As the person falls, the model evaluates successive motion sequences and the video displays **FALL DETECTED!** when the fall threshold is reached.
 
@@ -55,17 +57,10 @@ The dashboard keeps the workflow focused: **choose a video → analyze it → re
 
 ## From video to prediction
 
-```mermaid
-flowchart TD
-    A[Upload a video or select a sample] --> B[OpenCV reads video frames]
-    B --> C[MediaPipe extracts body landmarks]
-    C --> D[Normalize pose features]
-    D --> E[Build a sliding window of 30 frames]
-    E --> F[TensorFlow Lite model predicts fall probability]
-    F --> G[Draw pose and prediction overlays]
-    G --> H[FFmpeg prepares browser-playable video]
-    H --> I[Dashboard shows video, summary, and timeline]
-```
+<p align="center">
+  <img src="images/aether-analysis-pipeline.svg" width="1000" alt="Aether pipeline, top row left to right: select video, read frames, extract landmarks, normalize features. Then down and right to left: classify 30-frame sequences, draw annotations, encode video, and review results.">
+</p>
+
 
 ### 1. Describe the body through landmarks
 

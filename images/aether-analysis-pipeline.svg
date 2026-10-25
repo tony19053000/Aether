@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="380" viewBox="0 0 1000 380" role="img" aria-labelledby="title desc">
+<title id="title">Aether video analysis pipeline</title>
+<desc id="desc">Follow steps 1 to 4 left to right across the top, then steps 5 to 8 right to left across the bottom.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#ffb693"/></marker></defs>
+<rect width="1000" height="380" rx="20" fill="#131313"/>
+<g fill="none" stroke="#ffb693" stroke-width="2.5" marker-end="url(#arrow)">
+<path d="M228 112 H264"/><path d="M476 112 H512"/><path d="M724 112 H760"/>
+<path d="M872 170 V214"/>
+<path d="M772 284 H736"/><path d="M524 284 H488"/><path d="M276 284 H240"/>
+</g>
+<g font-family="Arial, Helvetica, sans-serif"><rect x="28" y="54" width="200" height="116" rx="14" fill="#242220" stroke="#685044"/><text x="44" y="79" fill="#ffb693" font-size="13" font-weight="700">01</text><text x="44" y="105" fill="#f4f0ec" font-size="19" font-weight="700">Select video</text>
+<text x="44" y="130" fill="#c8c6c5" font-size="15">Upload a clip</text>
+<text x="44" y="150" fill="#c8c6c5" font-size="15">or choose a sample</text>
+</g>
+<g font-family="Arial, Helvetica, sans-serif"><rect x="276" y="54" width="200" height="116" rx="14" fill="#242220" stroke="#685044"/><text x="292" y="79" fill="#ffb693" font-size="13" font-weight="700">02</text><text x="292" y="105" fill="#f4f0ec" font-size="19" font-weight="700">Read frames</text>
+<text x="292" y="130" fill="#c8c6c5" font-size="15">OpenCV decodes</text>
+<text x="292" y="150" fill="#c8c6c5" font-size="15">the video</text>
+</g>
+<g font-family="Arial, Helvetica, sans-serif"><rect x="524" y="54" width="200" height="116" rx="14" fill="#242220" stroke="#685044"/><text x="540" y="79" fill="#ffb693" font-size="13" font-weight="700">03</text><text x="540" y="105" fill="#f4f0ec" font-size="19" font-weight="700">Extract pose</text>
+<text x="540" y="130" fill="#c8c6c5" font-size="15">MediaPipe detects</text>
+<text x="540" y="150" fill="#c8c6c5" font-size="15">body landmarks</text>
+</g>
+<g font-family="Arial, Helvetica, sans-serif"><rect x="772" y="54" width="200" height="116" rx="14" fill="#242220" stroke="#685044"/><text x="788" y="79" fill="#ffb693" font-size="13" font-weight="700">04</text><text x="788" y="105" fill="#f4f0ec" font-size="19" font-weight="700">Normalize</text>
+<text x="788" y="130" fill="#c8c6c5" font-size="15">Prepare 51 features</text>
+<text x="788" y="150" fill="#c8c6c5" font-size="15">per frame</text>
+</g>
+<g font-family="Arial, Helvetica, sans-serif"><rect x="772" y="226" width="200" height="116" rx="14" fill="#242220" stroke="#685044"/><text x="788" y="251" fill="#ffb693" font-size="13" font-weight="700">05</text><text x="788" y="277" fill="#f4f0ec" font-size="19" font-weight="700">Classify motion</text>
+<text x="788" y="302" fill="#c8c6c5" font-size="15">30-frame sequences</text>
+<text x="788" y="322" fill="#c8c6c5" font-size="15">TensorFlow Lite</text>
+</g>
+<g font-family="Arial, Helvetica, sans-serif"><rect x="524" y="226" width="200" height="116" rx="14" fill="#242220" stroke="#685044"/><text x="540" y="251" fill="#ffb693" font-size="13" font-weight="700">06</text><text x="540" y="277" fill="#f4f0ec" font-size="19" font-weight="700">Annotate</text>
+<text x="540" y="302" fill="#c8c6c5" font-size="15">Draw skeleton and</text>
+<text x="540" y="322" fill="#c8c6c5" font-size="15">fall predictions</text>
+</g>
+<g font-family="Arial, Helvetica, sans-serif"><rect x="276" y="226" width="200" height="116" rx="14" fill="#242220" stroke="#685044"/><text x="292" y="251" fill="#ffb693" font-size="13" font-weight="700">07</text><text x="292" y="277" fill="#f4f0ec" font-size="19" font-weight="700">Encode video</text>
+<text x="292" y="302" fill="#c8c6c5" font-size="15">FFmpeg creates</text>
+<text x="292" y="322" fill="#c8c6c5" font-size="15">browser-ready MP4</text>
+</g>
+<g font-family="Arial, Helvetica, sans-serif"><rect x="28" y="226" width="200" height="116" rx="14" fill="#242220" stroke="#685044"/><text x="44" y="251" fill="#ffb693" font-size="13" font-weight="700">08</text><text x="44" y="277" fill="#f4f0ec" font-size="19" font-weight="700">Review results</text>
+<text x="44" y="302" fill="#c8c6c5" font-size="15">Video, summary</text>
+<text x="44" y="322" fill="#c8c6c5" font-size="15">and timeline</text>
+</g>
+</svg>
