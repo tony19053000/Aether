@@ -466,7 +466,7 @@ footer_html = """
 """
 
 # --- Create Gradio Interface ---
-with gr.Blocks(title="Aether AI | Fall Detection & Safety Monitoring", css=custom_css, head=custom_head, theme=gr.themes.Base()) as iface:
+with gr.Blocks(title="Aether AI | Fall Detection & Safety Monitoring") as iface:
     gr.HTML(header_html)
     
     with gr.Column(elem_classes="px-8 max-w-[1600px] mx-auto pt-6"):
@@ -647,7 +647,7 @@ if __name__ == "__main__":
     app = gr.mount_gradio_app(
         app, 
         iface, 
-        path="/api"
+        path="/api", css=custom_css, head=custom_head, theme=gr.themes.Base()
     )
 
     # Serve fall example videos
@@ -674,18 +674,9 @@ if __name__ == "__main__":
             return FileResponse(favicon_path, media_type="image/x-icon")
         return JSONResponse({"error": "Favicon not found"}, status_code=404)
 
-    # Path to the compiled React dashboard (dist folder)
-    react_build_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'aether-dashboard/dist'))
-
-    if os.path.exists(react_build_dir):
-        # Serve the static React build on the root path
-        app.mount("/", StaticFiles(directory=react_build_dir, html=True), name="frontend")
-        print(f"Server starting: Frontend at / and API at /api")
-    else:
-        print(f"WARNING: React build not found at {react_build_dir}. Ensure you ran 'npm run build'.")
-        # Fallback to serving Gradio on root if frontend isn't built
-        app = gr.mount_gradio_app(FastAPI(), iface, path="/")
-        print(f"Server starting: API at / (Standalone Mode)")
+    from dashboard import mount_dashboard
+    mount_dashboard(app, project_dir, process_video_for_gradio)
+    print("Server starting: Aether dashboard at / and Gradio at /api")
 
     port = int(os.environ.get("PORT", 7860))
     uvicorn.run(app, host="0.0.0.0", port=port)
