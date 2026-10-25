@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1>Aether</h1>
+<h1><img src="images/aether-wordmark.svg" width="180" height="54" alt="Aether"></h1>
 
 ### AI-powered fall detection, with evidence you can review.
 
