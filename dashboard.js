@@ -24,23 +24,6 @@ let previewUrl = null;
 let busy = false;
 let summary = '';
 const outputVideo = $('output-video');
-const playbackButton = $('toggle-playback');
-
-function updatePlaybackButton() {
-  playbackButton.textContent = outputVideo.paused ? 'Play Video' : 'Stop Video';
-}
-outputVideo.addEventListener('play', updatePlaybackButton);
-outputVideo.addEventListener('pause', updatePlaybackButton);
-playbackButton.onclick = async () => {
-  if (outputVideo.paused) {
-    try { await outputVideo.play(); }
-    catch { status.textContent = 'Playback could not start. Try the video controls.'; }
-  } else {
-    outputVideo.pause();
-    outputVideo.currentTime = 0;
-  }
-};
-
 function setAnalyzing(value) {
   $('analysis-loading').hidden = !value;
   $('output-placeholder').setAttribute('aria-busy', String(value));
@@ -65,7 +48,6 @@ function select(file) {
 
 function resetResults() {
   setAnalyzing(false);
-  playbackButton.hidden = true;
   $('output-video').pause();
   $('output-video').removeAttribute('src');
   $('output-video').load();
@@ -146,7 +128,6 @@ $('analyze-video').onclick = async () => {
     $('output-video').src = result.video_url;
     $('output-video').hidden = false;
     $('output-placeholder').hidden = true;
-    playbackButton.hidden = false;
     $('processing-time').textContent = `Processed in ${result.elapsed}s`;
     const falls = result.events.filter(event => event.fall);
     const scored = (falls.length ? falls : result.events).filter(event => event.confidence !== null);
@@ -175,8 +156,7 @@ $('analyze-video').onclick = async () => {
     // Muted inline playback permits autoplay after the asynchronous analysis.
     outputVideo.muted = true;
     try { await outputVideo.play(); }
-    catch { status.textContent = 'Analysis complete. Click Play Video to start playback.'; }
-    updatePlaybackButton();
+    catch { status.textContent = 'Analysis complete. Use the video’s play control to start playback.'; }
   } catch (error) {
     status.textContent = error.message;
     $('processing-time').textContent = 'Analysis failed';

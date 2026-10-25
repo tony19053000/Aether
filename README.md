@@ -48,7 +48,7 @@ In this run, the first fall event was reported at approximately **4.2 seconds**.
 | **Try four sample scenarios** | Demonstrate fall and non-fall footage without preparing an upload. Each preview comes from its actual video. |
 | **Start analysis explicitly** | Processing begins when you click **Analyze Video**; the loading indicator appears only while analysis runs. |
 | **Watch annotated results** | Review the detected skeleton, frame predictions, and fall overlays alongside the original footage. |
-| **Control looping playback** | The output starts muted and loops automatically, with Stop Video / Play Video controls. |
+| **Control looping playback** | The output starts muted and loops automatically, with built-in play and pause controls. |
 | **Inspect the outcome** | Read the detection summary and compare timestamped observations and confidence scores. |
 | **Download results** | Export the available text summary for later reference. |
 | **Explain the project** | Open the **ⓘ** panel for an overview during a demonstration. |
@@ -121,7 +121,7 @@ These names describe the footage, not guaranteed predictions. You can also uploa
 
 ### Run the analysis
 
-Click **Analyze Video** and wait for processing to finish. The output starts playing automatically and repeats so you can discuss the movement and overlays. **Stop Video** pauses playback and returns it to the beginning; **Play Video** starts it again.
+Click **Analyze Video** and wait for processing to finish. The output starts playing automatically and repeats so you can discuss the movement and overlays. Use the built-in controls at the bottom of the video to pause, resume, or seek through the result.
 
 ### Explain the result
 
